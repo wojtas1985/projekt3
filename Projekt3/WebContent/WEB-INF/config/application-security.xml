@@ -1,0 +1,68 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                         http://www.springframework.org/schema/security
+                         http://www.springframework.org/schema/security/spring-security-3.1.xsd" >
+<http auto-config="true">
+
+<intercept-url pattern="/obiekt.html" access="ROLE_ADMIN" />
+<intercept-url pattern="/obiekty.html" access="ROLE_USER, ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/saveObiekt.html" access="ROLE_ADMIN" />
+<intercept-url pattern="/delete.html" access="ROLE_ADMIN" />
+<intercept-url pattern="/edit.html" access="ROLE_ADMIN" />
+<intercept-url pattern="/open.html" access="ROLE_USER, ROLE_ZARZADCA, ROLE_ADMIN" />
+
+<intercept-url pattern="/odczyt.html" access="ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/odczyty.html" access="ROLE_USER, ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/odczytyPLN.html" access="ROLE_USER, ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/saveOdczyt.html" access="ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/deleteOdczyt.html" access="ROLE_ZARZADCA, ROLE_ADMIN" />
+
+<intercept-url pattern="/calkowiteZuzycie.html" access="ROLE_USER, ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/statystyki.html" access="ROLE_USER, ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/calkowiteKoszty.html" access="ROLE_USER, ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/jednostkoweKoszty.html" access="ROLE_USER, ROLE_ZARZADCA, ROLE_ADMIN" />
+
+<intercept-url pattern="/internet.html" access="ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/saveInternet.html" access="ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/deleteInternet.html" access="ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/calkowiteWydatkiInternet.html" access="ROLE_USER, ROLE_ZARZADCA, ROLE_ADMIN" />
+
+<intercept-url pattern="/telefon.html" access="ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/saveTelefon.html" access="ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/deleteTelefon.html" access="ROLE_ZARZADCA, ROLE_ADMIN" />
+<intercept-url pattern="/calkowiteWydatkiTelefon.html" access="ROLE_USER, ROLE_ZARZADCA, ROLE_ADMIN" />
+
+<intercept-url pattern="/zarzadca.html" access="ROLE_ADMIN" />
+<intercept-url pattern="/saveZarzadca.html" access="ROLE_ADMIN" />
+<intercept-url pattern="/deleteZarzadca.html" access="ROLE_ADMIN" />
+<intercept-url pattern="/openZarzadca.html" access="ROLE_ADMIN" />
+
+<intercept-url pattern="/addUser.html" access="ROLE_ADMIN" />
+<intercept-url pattern="/saveUser.html" access="ROLE_ADMIN" />
+<intercept-url pattern="/deleteUser.html" access="ROLE_ADMIN" />
+
+<form-login login-page="/login.html" default-target-url="/welcome.html"
+authentication-failure-url="/failLogin.html" />
+<logout logout-success-url="/logoff.html" />
+</http>
+
+ 
+	<authentication-manager>
+	   <authentication-provider>
+		<jdbc-user-service data-source-ref="dataSource"
+ 
+		   users-by-username-query="
+		      select login,haslo,enabled
+		      from uzytkownik where login=?"  
+		      
+		   authorities-by-username-query="
+		      select u.login,ur.rola from uzytkownik u, uzytkownikrole ur
+		      where u.uzytkownikid=ur.uzytkownikid and u.login=?" 
+ 
+		/>
+	   </authentication-provider>
+	</authentication-manager>
+</beans:beans>
